@@ -78,13 +78,22 @@
     .stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.6rem;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .stats-freq {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.45rem;
       margin-bottom: 1rem;
+    }
+    @media (max-width: 480px) {
+      .stats-freq { grid-template-columns: 1fr 1fr; }
     }
     .stat-card {
       background: var(--card);
       border-radius: 14px;
-      padding: 0.85rem 0.5rem;
+      padding: 0.7rem 0.4rem;
       text-align: center;
       box-shadow: var(--shadow);
       border: 2px solid transparent;
@@ -93,16 +102,22 @@
     .stat-card.nadine { border-color: var(--nadine); }
     .stat-card.total { border-color: var(--primary); }
     .stat-card.progress { border-color: var(--success); }
+    .stat-card.daily { border-color: #f59e0b; }
+    .stat-card.weekly { border-color: #3b82f6; }
+    .stat-card.biweekly { border-color: #8b5cf6; }
+    .stat-card.monthly { border-color: #10b981; }
+    .stat-card.bimonthly { border-color: #ec4899; }
     .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 800;
       display: block;
     }
     .stat-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
     }
     .filter-bar {
       display: flex;
@@ -386,6 +401,13 @@
       <div class="stat-card leon"><span class="stat-value">-</span><span class="stat-label">Leon 💙</span></div>
       <div class="stat-card nadine"><span class="stat-value">-</span><span class="stat-label">Nadine 💖</span></div>
     </div>
+    <div class="stats-freq" id="statsFreq">
+      <div class="stat-card daily"><span class="stat-value">-</span><span class="stat-label">☀️ Daily</span></div>
+      <div class="stat-card weekly"><span class="stat-value">-</span><span class="stat-label">📅 Weekly</span></div>
+      <div class="stat-card biweekly"><span class="stat-value">-</span><span class="stat-label">🗓️ 2 Weeks</span></div>
+      <div class="stat-card monthly"><span class="stat-value">-</span><span class="stat-label">🌙 Monthly</span></div>
+      <div class="stat-card bimonthly"><span class="stat-value">-</span><span class="stat-label">🌙 2 Months</span></div>
+    </div>
     <div class="filter-bar">
       <button class="filter-btn active-all" data-filter="all">All</button>
       <button class="filter-btn" data-filter="Leon">Leon 💙</button>
@@ -511,26 +533,67 @@
       renderAll();
     }
     function renderStats() {
+      // Group chores by frequency
+      const weeklyChores = WEEKLY_POOL.filter(ch => ch.freq === 'Once a week' || ch.freq === 'Twice a week');
+      const biweeklyChores = WEEKLY_POOL.filter(ch => ch.freq === 'Every 2 weeks');
+      const monthlyChores = LONGTERM_CHORES.filter(ch => ch.freq === 'Once a month');
+      const bimonthlyChores = LONGTERM_CHORES.filter(ch => ch.freq === 'Every 2 months');
+
+      const countDone = (list) => list.filter(ch => state.completions?.[ch.id]?.done).length;
+
+      const dailyDone = countDone(DAILY_CHORES);
+      const weeklyDone = countDone(weeklyChores);
+      const biweeklyDone = countDone(biweeklyChores);
+      const monthlyDone = countDone(monthlyChores);
+      const bimonthlyDone = countDone(bimonthlyChores);
+
       const total = DAILY_CHORES.length + WEEKLY_POOL.length + LONGTERM_CHORES.length;
-      let done = 0, leonDone = 0, nadineDone = 0;
-      const count = (list, assigns) => {
+      const done = dailyDone + weeklyDone + biweeklyDone + monthlyDone + bimonthlyDone;
+
+      let leonDone = 0, nadineDone = 0;
+      const countPerson = (list, assigns) => {
         list.forEach(ch => {
           if (state.completions?.[ch.id]?.done) {
-            done++;
             if ((assigns[ch.id] || 'Leon') === 'Leon') leonDone++;
             else nadineDone++;
           }
         });
       };
-      count(DAILY_CHORES, state.dailyAssignments || {});
-      count(WEEKLY_POOL, state.weeklyAssignments || {});
-      count(LONGTERM_CHORES, state.longtermAssignments || {});
+      countPerson(DAILY_CHORES, state.dailyAssignments || {});
+      countPerson(WEEKLY_POOL, state.weeklyAssignments || {});
+      countPerson(LONGTERM_CHORES, state.longtermAssignments || {});
+
       const pct = total ? Math.round((done / total) * 100) : 0;
+      const pctOf = (d, t) => t ? Math.round((d / t) * 100) : 0;
+
       document.getElementById('stats').innerHTML = `
         <div class="stat-card total"><span class="stat-value">${done}/${total}</span><span class="stat-label">Completed</span></div>
-        <div class="stat-card progress"><span class="stat-value">${pct}%</span><span class="stat-label">Progress</span></div>
+        <div class="stat-card progress"><span class="stat-value">${pct}%</span><span class="stat-label">Overall</span></div>
         <div class="stat-card leon"><span class="stat-value">${leonDone}</span><span class="stat-label">Leon 💙</span></div>
         <div class="stat-card nadine"><span class="stat-value">${nadineDone}</span><span class="stat-label">Nadine 💖</span></div>
+      `;
+
+      document.getElementById('statsFreq').innerHTML = `
+        <div class="stat-card daily">
+          <span class="stat-value">${dailyDone}/${DAILY_CHORES.length}</span>
+          <span class="stat-label">☀️ Daily · ${pctOf(dailyDone, DAILY_CHORES.length)}%</span>
+        </div>
+        <div class="stat-card weekly">
+          <span class="stat-value">${weeklyDone}/${weeklyChores.length}</span>
+          <span class="stat-label">📅 Weekly · ${pctOf(weeklyDone, weeklyChores.length)}%</span>
+        </div>
+        <div class="stat-card biweekly">
+          <span class="stat-value">${biweeklyDone}/${biweeklyChores.length}</span>
+          <span class="stat-label">🗓️ 2 Weeks · ${pctOf(biweeklyDone, biweeklyChores.length)}%</span>
+        </div>
+        <div class="stat-card monthly">
+          <span class="stat-value">${monthlyDone}/${monthlyChores.length}</span>
+          <span class="stat-label">🌙 Monthly · ${pctOf(monthlyDone, monthlyChores.length)}%</span>
+        </div>
+        <div class="stat-card bimonthly">
+          <span class="stat-value">${bimonthlyDone}/${bimonthlyChores.length}</span>
+          <span class="stat-label">🌙 2 Months · ${pctOf(bimonthlyDone, bimonthlyChores.length)}%</span>
+        </div>
       `;
     }
     function renderChore(ch, assigns) {
