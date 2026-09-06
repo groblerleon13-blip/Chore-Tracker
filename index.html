@@ -221,6 +221,14 @@
       text-decoration: line-through;
       color: var(--muted);
     }
+    .chore-item.special {
+      background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+      border-color: #f9a8d4;
+    }
+    .chore-item.special.done {
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+      border-color: #f472b6;
+    }
     .chore-item.hidden { display: none; }
     .check-wrap {
       position: relative;
@@ -455,7 +463,9 @@
       { id: 'd9', name: 'Wipe down kitchen counter tops', emoji: '✨' },
       { id: 'd10', name: 'Make bed', emoji: '🛏️' },
       { id: 'd11', name: 'Throw all trash in bag', emoji: '🗑️' },
-      { id: 'd12', name: 'Food prep for next day (evening)', emoji: '🥗' }
+      { id: 'd12', name: 'Food prep for next day (evening)', emoji: '🥗' },
+      { id: 'love-leon', name: 'Give Maddie extra snuggles, kisses & undivided attention 💕', emoji: '👶', special: true },
+      { id: 'love-nadine', name: 'Give Maddie extra snuggles, kisses & undivided attention 💕', emoji: '👶', special: true }
     ];
     const WEEKLY_POOL = [
       { id: 't1', name: 'Laundry (Wed & Sun)', emoji: '🧺', freq: 'Twice a week' },
@@ -487,13 +497,27 @@
     let isReady = false;
     function createFairAssignments(list) {
       const a = {};
-      list.forEach((ch, i) => a[ch.id] = (i % 2 === 0) ? 'Leon' : 'Nadine');
+      list.forEach((ch, i) => {
+        if (ch.id === 'love-leon') a[ch.id] = 'Leon';
+        else if (ch.id === 'love-nadine') a[ch.id] = 'Nadine';
+        else a[ch.id] = (i % 2 === 0) ? 'Leon' : 'Nadine';
+      });
       return a;
     }
     function flipAssignments(obj) {
       const n = {};
-      Object.keys(obj).forEach(k => n[k] = obj[k] === 'Leon' ? 'Nadine' : 'Leon');
+      Object.keys(obj).forEach(k => {
+        // Never flip the special Maddie love items
+        if (k === 'love-leon') n[k] = 'Leon';
+        else if (k === 'love-nadine') n[k] = 'Nadine';
+        else n[k] = obj[k] === 'Leon' ? 'Nadine' : 'Leon';
+      });
       return n;
+    }
+    function ensureLoveAssignments() {
+      if (!state.dailyAssignments) state.dailyAssignments = {};
+      state.dailyAssignments['love-leon'] = 'Leon';
+      state.dailyAssignments['love-nadine'] = 'Nadine';
     }
     function getDefaultState() {
       return {
@@ -516,6 +540,7 @@
         if (!state.dailyAssignments) state.dailyAssignments = createFairAssignments(DAILY_CHORES);
         if (!state.weeklyAssignments) state.weeklyAssignments = createFairAssignments(WEEKLY_POOL);
         if (!state.longtermAssignments) state.longtermAssignments = createFairAssignments(LONGTERM_CHORES);
+        ensureLoveAssignments();
       } else {
         state = getDefaultState();
         stateRef.set(state);
@@ -602,8 +627,9 @@
       const who = assigns[ch.id] || 'Leon';
       const hidden = (currentFilter !== 'all' && who !== currentFilter) ? 'hidden' : '';
       const dateStr = c.date ? new Date(c.date).toLocaleDateString(undefined, {month:'short', day:'numeric'}) : '';
+      const specialClass = ch.special ? 'special' : '';
       return `
-        <div class="chore-item ${done ? 'done' : ''} ${hidden}">
+        <div class="chore-item ${done ? 'done' : ''} ${specialClass} ${hidden}">
           <div class="check-wrap">
             <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleDone('${ch.id}', this.checked)">
             <span class="checkmark"></span>
@@ -764,4 +790,5 @@
   </script>
 </body>
 </html>
+
 
