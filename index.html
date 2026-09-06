@@ -21,9 +21,7 @@
       --radius: 16px;
       --shadow: 0 4px 14px rgba(99, 102, 241, 0.12);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       background: linear-gradient(160deg, #e0e7ff 0%, #fce7f3 50%, #fef3c7 100%);
@@ -33,13 +31,11 @@
       line-height: 1.45;
       padding-bottom: 2rem;
     }
-
     .container {
       max-width: 640px;
       margin: 0 auto;
       padding: 0.75rem;
     }
-
     header {
       background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
       color: white;
@@ -49,18 +45,15 @@
       margin-bottom: 1rem;
       text-align: center;
     }
-
     header h1 {
       font-size: 1.4rem;
       font-weight: 800;
       margin-bottom: 0.25rem;
     }
-
     header p {
       font-size: 0.85rem;
       opacity: 0.95;
     }
-
     .sync-status {
       display: inline-flex;
       align-items: center;
@@ -71,7 +64,6 @@
       font-size: 0.75rem;
       margin-top: 0.5rem;
     }
-
     .sync-dot {
       width: 7px;
       height: 7px;
@@ -79,19 +71,16 @@
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
-
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.45; }
     }
-
     .stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.6rem;
       margin-bottom: 1rem;
     }
-
     .stat-card {
       background: var(--card);
       border-radius: 14px;
@@ -100,25 +89,21 @@
       box-shadow: var(--shadow);
       border: 2px solid transparent;
     }
-
     .stat-card.leon { border-color: var(--leon); }
     .stat-card.nadine { border-color: var(--nadine); }
     .stat-card.total { border-color: var(--primary); }
     .stat-card.progress { border-color: var(--success); }
-
     .stat-value {
       font-size: 1.5rem;
       font-weight: 800;
       display: block;
     }
-
     .stat-label {
       font-size: 0.7rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
-
     .filter-bar {
       display: flex;
       gap: 0.4rem;
@@ -128,7 +113,6 @@
       border-radius: 999px;
       box-shadow: var(--shadow);
     }
-
     .filter-btn {
       flex: 1;
       border: none;
@@ -140,11 +124,9 @@
       font-size: 0.85rem;
       cursor: pointer;
     }
-
     .filter-btn.active-all { background: var(--primary); color: white; }
     .filter-btn.active-leon { background: var(--leon); color: white; }
     .filter-btn.active-nadine { background: var(--nadine); color: white; }
-
     .section {
       background: var(--card);
       border-radius: var(--radius);
@@ -152,7 +134,6 @@
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-
     .section-header {
       padding: 0.9rem 1rem;
       display: flex;
@@ -160,20 +141,17 @@
       gap: 0.6rem;
       border-bottom: 1px solid #e2e8f0;
     }
-
     .section-header h2 {
       font-size: 1.1rem;
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
-
     .section-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
     }
-
     .btn {
       border: none;
       padding: 0.55rem 0.9rem;
@@ -185,7 +163,6 @@
       align-items: center;
       gap: 0.3rem;
     }
-
     .btn-primary { background: var(--primary); color: white; }
     .btn-danger { background: var(--danger); color: white; }
     .btn-outline {
@@ -194,9 +171,7 @@
       border: 2px solid var(--primary);
     }
     .btn-warning { background: #f59e0b; color: white; }
-
     .section-body { padding: 0.75rem; }
-
     .info-banner {
       background: #fef3c7;
       border: 1px solid #f59e0b;
@@ -208,12 +183,10 @@
       gap: 0.5rem;
       align-items: flex-start;
     }
-
     .chore-list {
       display: grid;
       gap: 0.5rem;
     }
-
     .chore-item {
       display: grid;
       grid-template-columns: 40px 1fr;
@@ -225,25 +198,20 @@
       border: 2px solid transparent;
       min-height: 64px;
     }
-
     .chore-item.done {
       background: #ecfdf5;
       border-color: #a7f3d0;
     }
-
     .chore-item.done .chore-name {
       text-decoration: line-through;
       color: var(--muted);
     }
-
     .chore-item.hidden { display: none; }
-
     .check-wrap {
       position: relative;
       width: 36px;
       height: 36px;
     }
-
     .check-wrap input {
       position: absolute;
       opacity: 0;
@@ -252,7 +220,6 @@
       cursor: pointer;
       z-index: 2;
     }
-
     .checkmark {
       position: absolute;
       top: 0; left: 0;
@@ -261,12 +228,10 @@
       border: 3px solid #cbd5e1;
       border-radius: 10px;
     }
-
     .check-wrap input:checked + .checkmark {
       background: var(--success);
       border-color: var(--success);
     }
-
     .checkmark::after {
       content: '';
       position: absolute;
@@ -277,28 +242,23 @@
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);
     }
-
     .check-wrap input:checked + .checkmark::after { display: block; }
-
     .chore-content {
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
     }
-
     .chore-name {
       font-weight: 600;
       font-size: 0.92rem;
       line-height: 1.3;
     }
-
     .chore-bottom {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       flex-wrap: wrap;
     }
-
     .assignee-badge {
       font-size: 0.7rem;
       font-weight: 800;
@@ -306,10 +266,8 @@
       border-radius: 999px;
       color: white;
     }
-
     .assignee-badge.leon { background: var(--leon); }
     .assignee-badge.nadine { background: var(--nadine); }
-
     .freq-tag {
       font-size: 0.65rem;
       background: #e0e7ff;
@@ -318,19 +276,16 @@
       border-radius: 999px;
       font-weight: 600;
     }
-
     .chore-meta {
       font-size: 0.7rem;
       color: var(--muted);
     }
-
     footer {
       text-align: center;
       padding: 1.25rem 0.5rem;
       color: var(--muted);
       font-size: 0.8rem;
     }
-
     .toast {
       position: fixed;
       bottom: 1.5rem;
@@ -350,12 +305,10 @@
       max-width: 90%;
       text-align: center;
     }
-
     .toast.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
-
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -368,12 +321,10 @@
       visibility: hidden;
       transition: all 0.25s;
     }
-
     .modal-overlay.open {
       opacity: 1;
       visibility: visible;
     }
-
     .modal {
       background: white;
       border-radius: 20px 20px 0 0;
@@ -384,32 +335,26 @@
       transform: translateY(100%);
       transition: transform 0.3s;
     }
-
     .modal-overlay.open .modal { transform: translateY(0); }
-
     .modal h3 {
       margin-bottom: 0.4rem;
       font-size: 1.2rem;
     }
-
     .modal p {
       color: var(--muted);
       margin-bottom: 1.25rem;
       font-size: 0.95rem;
     }
-
     .modal-actions {
       display: flex;
       gap: 0.6rem;
       justify-content: center;
     }
-
     .modal-actions .btn {
       flex: 1;
       padding: 0.75rem;
       font-size: 0.95rem;
     }
-
     #confetti {
       position: fixed;
       inset: 0;
@@ -417,7 +362,6 @@
       z-index: 150;
       overflow: hidden;
     }
-
     .loading {
       text-align: center;
       padding: 3rem 1rem;
@@ -436,29 +380,23 @@
         <span id="syncText">Connecting...</span>
       </div>
     </header>
-
     <div class="stats" id="stats">
       <div class="stat-card total"><span class="stat-value">-</span><span class="stat-label">Completed</span></div>
       <div class="stat-card progress"><span class="stat-value">-</span><span class="stat-label">Progress</span></div>
       <div class="stat-card leon"><span class="stat-value">-</span><span class="stat-label">Leon 💙</span></div>
       <div class="stat-card nadine"><span class="stat-value">-</span><span class="stat-label">Nadine 💖</span></div>
     </div>
-
     <div class="filter-bar">
       <button class="filter-btn active-all" data-filter="all">All</button>
       <button class="filter-btn" data-filter="Leon">Leon 💙</button>
       <button class="filter-btn" data-filter="Nadine">Nadine 💖</button>
     </div>
-
     <div id="content">
       <div class="loading">Loading chores...</div>
     </div>
-
     <footer>Live sync powered by Firebase</footer>
   </div>
-
   <div class="toast" id="toast"></div>
-
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <h3 id="modalTitle">Confirm</h3>
@@ -469,9 +407,7 @@
       </div>
     </div>
   </div>
-
   <div id="confetti"></div>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDlQY0DVO9b47Rndr0de0kyykIDq4TdLBQ",
@@ -482,11 +418,9 @@
       appId: "1:630623368659:web:e75d1898979d03e509eb26",
       databaseURL: "https://chore-tracker-a3921-default-rtdb.firebaseio.com"
     };
-
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const stateRef = db.ref('choreState');
-
     const DAILY_CHORES = [
       { id: 'd1', name: 'Prepare dinner & clean stove / air fryer', emoji: '🍳' },
       { id: 'd2', name: 'Throw out recycling', emoji: '♻️' },
@@ -501,7 +435,6 @@
       { id: 'd11', name: 'Throw all trash in bag', emoji: '🗑️' },
       { id: 'd12', name: 'Food prep for next day (evening)', emoji: '🥗' }
     ];
-
     const WEEKLY_POOL = [
       { id: 't1', name: 'Laundry (Wed & Sun)', emoji: '🧺', freq: 'Twice a week' },
       { id: 'w1', name: 'Empty & blow out vacuum', emoji: '💨', freq: 'Once a week' },
@@ -520,7 +453,6 @@
       { id: 'b3', name: 'Check & clean play room', emoji: '🎮', freq: 'Every 2 weeks' },
       { id: 'b4', name: 'Clean top of ceiling fans', emoji: '💨', freq: 'Every 2 weeks' }
     ];
-
     const LONGTERM_CHORES = [
       { id: 'm1', name: 'Check salt in water softener', emoji: '🧂', freq: 'Once a month' },
       { id: 'm2', name: 'Clean window sills', emoji: '🪟', freq: 'Once a month' },
@@ -528,23 +460,19 @@
       { id: 'bm1', name: 'Wash bedding', emoji: '🛌', freq: 'Every 2 months' },
       { id: 'bm2', name: 'Check outdoor lint buildup', emoji: '🏠', freq: 'Every 2 months' }
     ];
-
     let currentFilter = 'all';
     let state = null;
     let isReady = false;
-
     function createFairAssignments(list) {
       const a = {};
       list.forEach((ch, i) => a[ch.id] = (i % 2 === 0) ? 'Leon' : 'Nadine');
       return a;
     }
-
     function flipAssignments(obj) {
       const n = {};
       Object.keys(obj).forEach(k => n[k] = obj[k] === 'Leon' ? 'Nadine' : 'Leon');
       return n;
     }
-
     function getDefaultState() {
       return {
         dailyAssignments: createFairAssignments(DAILY_CHORES),
@@ -553,16 +481,19 @@
         completions: {}
       };
     }
-
     function saveState() {
       if (!isReady) return;
       stateRef.set(state);
     }
-
     stateRef.on('value', (snap) => {
       const data = snap.val();
       if (data && data.dailyAssignments) {
         state = data;
+        // Ensure required objects always exist (old data may be missing them)
+        if (!state.completions) state.completions = {};
+        if (!state.dailyAssignments) state.dailyAssignments = createFairAssignments(DAILY_CHORES);
+        if (!state.weeklyAssignments) state.weeklyAssignments = createFairAssignments(WEEKLY_POOL);
+        if (!state.longtermAssignments) state.longtermAssignments = createFairAssignments(LONGTERM_CHORES);
       } else {
         state = getDefaultState();
         stateRef.set(state);
@@ -574,33 +505,27 @@
       document.getElementById('syncText').textContent = 'Connection error';
       console.error(err);
     });
-
     function render() {
       if (!state) return;
       renderStats();
       renderAll();
     }
-
     function renderStats() {
       const total = DAILY_CHORES.length + WEEKLY_POOL.length + LONGTERM_CHORES.length;
       let done = 0, leonDone = 0, nadineDone = 0;
-
       const count = (list, assigns) => {
         list.forEach(ch => {
-          if (state.completions[ch.id]?.done) {
+          if (state.completions?.[ch.id]?.done) {
             done++;
             if ((assigns[ch.id] || 'Leon') === 'Leon') leonDone++;
             else nadineDone++;
           }
         });
       };
-
       count(DAILY_CHORES, state.dailyAssignments || {});
       count(WEEKLY_POOL, state.weeklyAssignments || {});
       count(LONGTERM_CHORES, state.longtermAssignments || {});
-
       const pct = total ? Math.round((done / total) * 100) : 0;
-
       document.getElementById('stats').innerHTML = `
         <div class="stat-card total"><span class="stat-value">${done}/${total}</span><span class="stat-label">Completed</span></div>
         <div class="stat-card progress"><span class="stat-value">${pct}%</span><span class="stat-label">Progress</span></div>
@@ -608,14 +533,12 @@
         <div class="stat-card nadine"><span class="stat-value">${nadineDone}</span><span class="stat-label">Nadine 💖</span></div>
       `;
     }
-
     function renderChore(ch, assigns) {
-      const c = state.completions[ch.id] || {};
+      const c = state.completions?.[ch.id] || {};
       const done = !!c.done;
       const who = assigns[ch.id] || 'Leon';
       const hidden = (currentFilter !== 'all' && who !== currentFilter) ? 'hidden' : '';
       const dateStr = c.date ? new Date(c.date).toLocaleDateString(undefined, {month:'short', day:'numeric'}) : '';
-
       return `
         <div class="chore-item ${done ? 'done' : ''} ${hidden}">
           <div class="check-wrap">
@@ -633,7 +556,6 @@
         </div>
       `;
     }
-
     function renderAll() {
       const html = `
         <div class="section">
@@ -650,7 +572,6 @@
             </div>
           </div>
         </div>
-
         <div class="section">
           <div class="section-header">
             <h2>📅 This Week’s Extras</h2>
@@ -669,7 +590,6 @@
             </div>
           </div>
         </div>
-
         <div class="section">
           <div class="section-header">
             <h2>🌙 Longer-Term</h2>
@@ -686,8 +606,8 @@
       `;
       document.getElementById('content').innerHTML = html;
     }
-
     function toggleDone(id, checked) {
+      if (!state.completions) state.completions = {};
       if (!state.completions[id]) state.completions[id] = {};
       state.completions[id].done = checked;
       state.completions[id].date = checked ? new Date().toISOString() : null;
@@ -697,7 +617,6 @@
         spawnConfetti();
       }
     }
-
     function rebalance(type) {
       showModal('Re-balance chores?', 'This will create a new fair 50/50 split.', 'Yes, Re-balance', () => {
         if (type === 'daily') {
@@ -714,9 +633,9 @@
         showToast('Re-balanced! ⚖️');
       });
     }
-
     function clearChecks(type) {
       showModal('Clear checkmarks?', 'This only clears the ticks, not the assignments.', 'Yes, Clear', () => {
+        if (!state.completions) state.completions = {};
         const list = type === 'daily' ? DAILY_CHORES : WEEKLY_POOL;
         list.forEach(ch => {
           if (state.completions[ch.id]) {
@@ -728,7 +647,6 @@
         showToast('Cleared');
       });
     }
-
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         currentFilter = btn.dataset.filter;
@@ -741,7 +659,6 @@
         render();
       });
     });
-
     let modalCb = null;
     function showModal(title, text, label, cb) {
       document.getElementById('modalTitle').textContent = title;
@@ -751,18 +668,15 @@
       modalCb = cb;
       document.getElementById('modal').classList.add('open');
     }
-
     document.getElementById('modalCancel').onclick = () => {
       document.getElementById('modal').classList.remove('open');
       modalCb = null;
     };
-
     document.getElementById('modalConfirm').onclick = () => {
       if (modalCb) modalCb();
       document.getElementById('modal').classList.remove('open');
       modalCb = null;
     };
-
     let toastTimer;
     function showToast(msg) {
       const t = document.getElementById('toast');
@@ -771,7 +685,6 @@
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
     }
-
     function spawnConfetti() {
       const box = document.getElementById('confetti');
       const colors = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6'];
@@ -782,10 +695,10 @@
         setTimeout(() => p.remove(), 2200);
       }
     }
-
     const s = document.createElement('style');
     s.textContent = `@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}`;
     document.head.appendChild(s);
   </script>
 </body>
 </html>
+
