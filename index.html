@@ -2,106 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Leon & Nadine's Chore Tracker</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
   <style>
     :root {
-      --bg: #f0f4ff;
-      --card: #ffffff;
       --primary: #6366f1;
       --primary-dark: #4f46e5;
-      --accent: #f59e0b;
       --success: #10b981;
       --danger: #ef4444;
       --text: #1e293b;
       --muted: #64748b;
       --leon: #3b82f6;
       --nadine: #ec4899;
-      --shadow: 0 4px 14px rgba(99, 102, 241, 0.12);
+      --card: #ffffff;
       --radius: 16px;
+      --shadow: 0 4px 14px rgba(99, 102, 241, 0.12);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #e0e7ff 0%, #fce7f3 50%, #fef3c7 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, #e0e7ff 0%, #fce7f3 50%, #fef3c7 100%);
       background-attachment: fixed;
       color: var(--text);
       min-height: 100vh;
-      line-height: 1.5;
+      line-height: 1.45;
+      padding-bottom: 2rem;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 1.25rem;
+      padding: 0.75rem;
     }
 
+    /* Header */
     header {
       background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
       color: white;
-      padding: 1.75rem 1.5rem;
+      padding: 1.25rem 1rem;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    header::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-      animation: shine 8s linear infinite;
-    }
-
-    @keyframes shine {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
 
     header h1 {
-      font-size: 1.85rem;
+      font-size: 1.4rem;
       font-weight: 800;
-      margin-bottom: 0.35rem;
-      position: relative;
+      margin-bottom: 0.25rem;
     }
 
     header p {
+      font-size: 0.85rem;
       opacity: 0.95;
-      font-size: 1rem;
-      position: relative;
-    }
-
-    .header-icons {
-      font-size: 1.6rem;
-      margin-top: 0.5rem;
-      letter-spacing: 0.4rem;
     }
 
     .sync-status {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      background: rgba(255,255,255,0.2);
-      padding: 0.3rem 0.8rem;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.22);
+      padding: 0.25rem 0.7rem;
       border-radius: 999px;
-      font-size: 0.8rem;
-      margin-top: 0.6rem;
-      position: relative;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
     }
 
     .sync-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       background: #4ade80;
       border-radius: 50%;
       animation: pulse 2s infinite;
@@ -109,175 +83,157 @@
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      50% { opacity: 0.45; }
     }
 
+    /* Stats */
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 0.85rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
     }
 
     .stat-card {
       background: var(--card);
       border-radius: 14px;
-      padding: 1rem;
+      padding: 0.85rem 0.5rem;
       text-align: center;
       box-shadow: var(--shadow);
       border: 2px solid transparent;
-      transition: transform 0.2s;
     }
 
-    .stat-card:hover { transform: translateY(-3px); }
     .stat-card.leon { border-color: var(--leon); }
     .stat-card.nadine { border-color: var(--nadine); }
     .stat-card.total { border-color: var(--primary); }
     .stat-card.progress { border-color: var(--success); }
 
     .stat-value {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
       display: block;
     }
 
     .stat-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .filter-select {
+    /* Filter */
+    .filter-bar {
       display: flex;
       gap: 0.4rem;
-      align-items: center;
+      margin-bottom: 1rem;
       background: var(--card);
-      padding: 0.45rem 0.75rem;
+      padding: 0.4rem;
       border-radius: 999px;
       box-shadow: var(--shadow);
     }
 
-    .filter-select label {
-      font-weight: 600;
-      font-size: 0.85rem;
-      margin-right: 0.25rem;
-    }
-
     .filter-btn {
+      flex: 1;
       border: none;
-      background: #e2e8f0;
+      background: transparent;
       color: var(--text);
-      padding: 0.35rem 0.85rem;
+      padding: 0.55rem 0.4rem;
       border-radius: 999px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
+      font-weight: 700;
       font-size: 0.85rem;
+      cursor: pointer;
     }
 
     .filter-btn.active-all { background: var(--primary); color: white; }
     .filter-btn.active-leon { background: var(--leon); color: white; }
     .filter-btn.active-nadine { background: var(--nadine); color: white; }
 
-    .btn {
-      border: none;
-      padding: 0.55rem 1.1rem;
-      border-radius: 999px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); transform: scale(1.03); }
-    .btn-danger { background: var(--danger); color: white; }
-    .btn-danger:hover { background: #dc2626; }
-    .btn-outline {
-      background: white;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-    .btn-warning {
-      background: #f59e0b;
-      color: white;
-    }
-    .btn-warning:hover { background: #d97706; }
-
+    /* Sections */
     .section {
       background: var(--card);
       border-radius: var(--radius);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
     .section-header {
-      padding: 1rem 1.25rem;
+      padding: 0.9rem 1rem;
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
+      flex-direction: column;
+      gap: 0.6rem;
       border-bottom: 1px solid #e2e8f0;
     }
 
     .section-header h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .section-actions {
       display: flex;
       flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .btn {
+      border: none;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn-warning { background: #f59e0b; color: white; }
+
+    .section-body { padding: 0.75rem; }
+
+    .info-banner {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 12px;
+      padding: 0.7rem 0.9rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+      display: flex;
       gap: 0.5rem;
+      align-items: flex-start;
     }
 
-    .section-body {
-      padding: 1rem;
-    }
-
+    /* Chore items - mobile optimized */
     .chore-list {
       display: grid;
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
 
     .chore-item {
       display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 0.75rem;
+      grid-template-columns: 40px 1fr;
+      gap: 0.6rem;
       align-items: center;
       background: #f8fafc;
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      padding: 0.85rem 0.75rem;
       border: 2px solid transparent;
-      transition: all 0.2s;
-    }
-
-    .chore-item:hover {
-      border-color: #c7d2fe;
-      background: #eef2ff;
+      min-height: 64px;
     }
 
     .chore-item.done {
       background: #ecfdf5;
       border-color: #a7f3d0;
-      opacity: 0.9;
     }
 
     .chore-item.done .chore-name {
@@ -287,10 +243,11 @@
 
     .chore-item.hidden { display: none; }
 
+    /* Bigger checkbox for phones */
     .check-wrap {
       position: relative;
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
     }
 
     .check-wrap input {
@@ -305,11 +262,10 @@
     .checkmark {
       position: absolute;
       top: 0; left: 0;
-      width: 28px; height: 28px;
+      width: 36px; height: 36px;
       background: white;
-      border: 2.5px solid #cbd5e1;
-      border-radius: 8px;
-      transition: all 0.2s;
+      border: 3px solid #cbd5e1;
+      border-radius: 10px;
     }
 
     .check-wrap input:checked + .checkmark {
@@ -321,8 +277,8 @@
       content: '';
       position: absolute;
       display: none;
-      left: 8px; top: 3px;
-      width: 7px; height: 13px;
+      left: 11px; top: 5px;
+      width: 9px; height: 16px;
       border: solid white;
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);
@@ -330,88 +286,76 @@
 
     .check-wrap input:checked + .checkmark::after { display: block; }
 
+    .chore-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
     .chore-name {
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
+      line-height: 1.3;
     }
 
-    .chore-meta {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 0.15rem;
-    }
-
-    .freq-tag {
-      font-size: 0.7rem;
-      background: #e0e7ff;
-      color: #4338ca;
-      padding: 0.15rem 0.45rem;
-      border-radius: 999px;
-      font-weight: 600;
-      margin-left: 0.4rem;
+    .chore-bottom {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .assignee-badge {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      padding: 0.3rem 0.65rem;
+      padding: 0.2rem 0.55rem;
       border-radius: 999px;
       color: white;
-      min-width: 70px;
-      text-align: center;
     }
 
     .assignee-badge.leon { background: var(--leon); }
     .assignee-badge.nadine { background: var(--nadine); }
 
-    .info-banner {
-      background: linear-gradient(135deg, #dbeafe, #ede9fe);
-      border: 2px solid #a5b4fc;
-      border-radius: 14px;
-      padding: 0.9rem 1.2rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
+    .freq-tag {
+      font-size: 0.65rem;
+      background: #e0e7ff;
+      color: #4338ca;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      font-weight: 600;
     }
 
-    .info-banner.warning {
-      background: linear-gradient(135deg, #fef3c7, #fde68a);
-      border-color: #f59e0b;
-    }
-
-    .info-banner strong { color: var(--primary-dark); }
-
-    .empty-state {
-      text-align: center;
-      padding: 1.5rem;
+    .chore-meta {
+      font-size: 0.7rem;
       color: var(--muted);
-      font-size: 0.95rem;
     }
 
     footer {
       text-align: center;
-      padding: 1.5rem 1rem;
+      padding: 1.25rem 0.5rem;
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 1.5rem;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(120px);
       background: #1e293b;
       color: white;
-      padding: 0.85rem 1.5rem;
+      padding: 0.8rem 1.4rem;
       border-radius: 999px;
       font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
       opacity: 0;
-      transition: all 0.35s ease;
+      transition: all 0.3s ease;
       z-index: 100;
       pointer-events: none;
+      max-width: 90%;
+      text-align: center;
     }
 
     .toast.show {
@@ -419,12 +363,13 @@
       opacity: 1;
     }
 
+    /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(15, 23, 42, 0.6);
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
       z-index: 200;
       opacity: 0;
@@ -439,21 +384,20 @@
 
     .modal {
       background: white;
-      border-radius: 20px;
-      padding: 1.75rem;
-      max-width: 400px;
-      width: 90%;
+      border-radius: 20px 20px 0 0;
+      padding: 1.5rem 1.25rem 2rem;
+      width: 100%;
+      max-width: 480px;
       text-align: center;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-      transform: scale(0.9);
-      transition: transform 0.25s;
+      transform: translateY(100%);
+      transition: transform 0.3s;
     }
 
-    .modal-overlay.open .modal { transform: scale(1); }
+    .modal-overlay.open .modal { transform: translateY(0); }
 
     .modal h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.25rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.2rem;
     }
 
     .modal p {
@@ -464,24 +408,14 @@
 
     .modal-actions {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.6rem;
       justify-content: center;
-      flex-wrap: wrap;
     }
 
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.45rem; }
-      .chore-item {
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto;
-      }
-      .assignee-badge {
-        grid-column: 1 / -1;
-        justify-self: end;
-        margin-top: 0.25rem;
-      }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .section-header { flex-direction: column; align-items: flex-start; }
+    .modal-actions .btn {
+      flex: 1;
+      padding: 0.75rem;
+      font-size: 0.95rem;
     }
 
     #confetti {
@@ -491,42 +425,84 @@
       z-index: 150;
       overflow: hidden;
     }
+
+    .loading {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🏠 Leon & Nadine's Chore Tracker</h1>
-      <p>Daily chores stay stable · Weekly extras get a fresh fair split</p>
-      <div class="header-icons">🧹 ✨ 🧺 🧽 🛏️</div>
+      <h1>🏠 Leon & Nadine's Chores</h1>
+      <p>Fair split · Live sync</p>
       <div class="sync-status">
         <span class="sync-dot"></span>
-        <span>Live sync active</span>
+        <span id="syncText">Connecting...</span>
       </div>
     </header>
 
-    <div class="info-banner">
-      <span style="font-size:1.3rem;">🔄</span>
-      <div>
-        <strong>Real-time sync is on</strong><br>
-        When one of you ticks a chore, the other person will see it within a second.
-      </div>
+    <div class="stats" id="stats">
+      <div class="stat-card total"><span class="stat-value">-</span><span class="stat-label">Completed</span></div>
+      <div class="stat-card progress"><span class="stat-value">-</span><span class="stat-label">Progress</span></div>
+      <div class="stat-card leon"><span class="stat-value">-</span><span class="stat-label">Leon 💙</span></div>
+      <div class="stat-card nadine"><span class="stat-value">-</span><span class="stat-label">Nadine 💖</span></div>
     </div>
 
-    <div class="stats" id="stats"></div>
-
-    <div class="controls">
-      <div class="filter-select">
-        <label>Show:</label>
-        <button class="filter-btn active-all" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Leon">Leon 💙</button>
-        <button class="filter-btn" data-filter="Nadine">Nadine 💖</button>
-      </div>
+    <div class="filter-bar">
+      <button class="filter-btn active-all" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Leon">Leon 💙</button>
+      <button class="filter-btn" data-filter="Nadine">Nadine 💖</button>
     </div>
 
-    <!-- DAILY -->
-    <div class="section">
-      <div class="section-header">
-        <h2>☀️ Every Day Chores</h2>
-        <div class="section-actions">
-          <button class="btn btn-outline" id="btnRebalanceDaily">🔀 Re-balance Daily</butto
+    <div id="content">
+      <div class="loading">Loading chores...</div>
+    </div>
+
+    <footer>Live sync powered by Firebase</footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm</h3>
+      <p id="modalText"></p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="modalCancel">Cancel</button>
+        <button class="btn btn-primary" id="modalConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confetti"></div>
+
+  <script>
+    // ========== FIREBASE ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyDlQY0DVO9b47Rndr0de0kyykIDq4TdLBQ",
+      authDomain: "chore-tracker-a3921.firebaseapp.com",
+      projectId: "chore-tracker-a3921",
+      storageBucket: "chore-tracker-a3921.firebasestorage.app",
+      messagingSenderId: "630623368659",
+      appId: "1:630623368659:web:e75d1898979d03e509eb26",
+      databaseURL: "https://chore-tracker-a3921-default-rtdb.firebaseio.com"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const stateRef = db.ref('choreState');
+
+    // ========== CHORE LISTS ==========
+    const DAILY_CHORES = [
+      { id: 'd1', name: 'Prepare dinner & clean stove / air fryer', emoji: '🍳' },
+      { id: 'd2', name: 'Throw out recycling', emoji: '♻️' },
+      { id: 'd3', name: 'Collect all soda cans', emoji: '🥤' },
+      { id: 'd4', name: 'Pack dishwasher & do leftover dishes (evening)', emoji: '🍽️' },
+      { id: 'd5', name: 'Unpack dishwasher & put everything away', emoji: '🍴' },
+      { id: 'd6', name: 'Pick up and put away toys', emoji: '🧸' },
+      { id: 'd7', name: 'Pick up random stuff not in place', emoji: '🧹' },
+      { id: 'd8', name: 'Wipe/mop spills and spots on flo
